@@ -24,22 +24,29 @@ namespace csharp_interpolated_string_pre4._6
         {
             var a = "{{   b      }}";
             var b = "world";
-            var template = "this is a string with variable {{    a   }} and {{b}}, again {{a}} {{b}}, an unmatched {{c  }}";
+            var template = "this is a string with variable {{    a   }} and {{b}}, again {{a}} {{b}}, an unmatched {{c  }}, an maybe-illegal one {{ b c }}";
 
             MatchEvaluator matcher = match =>
             {
                 // DisplayMatchResults(match);
 
-                switch (match.Groups[1].Value.Trim()) {
+                var value = match.Groups[1].Value.Trim();
+                switch (value) {
                     case "a":
+                        Console.WriteLine($"Matched--\"{value}\"");
                         return a;
                     case "b":
+                        Console.WriteLine($"Matched--\"{value}\"");
                         return b;
-                    default: 
+                    default:
+                        Console.WriteLine($"Unmatched--\"{value}\"");
                         return match.Value; // do nothing
                 }
             };
 
+            // YES, leaving left and rights spaces for trimming,
+            // because otherwise the capture will not work well
+            // the capture should not care spaces in the middle (e.g. {{ a b }})
             Console.WriteLine(Regex.Replace(template, "{{([^{}]+)}}", matcher));
             Console.ReadLine();
         }
