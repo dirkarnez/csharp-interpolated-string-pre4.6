@@ -29,17 +29,14 @@ namespace csharp_interpolated_string_pre4._6
             MatchEvaluator matcher = match =>
             {
                 // DisplayMatchResults(match);
-                
-                if (match.Groups[1].Value.Trim() == "a")
-                {
-                    return a;
-                }
-                else if (match.Groups[1].Value.Trim() == "b")
-                {
-                    return b;
-                } else
-                {
-                    return match.Value; // do nothing
+
+                switch (match.Groups[1].Value.Trim()) {
+                    case "a":
+                        return a;
+                    case "b":
+                        return b;
+                    default: 
+                        return match.Value; // do nothing
                 }
             };
 
