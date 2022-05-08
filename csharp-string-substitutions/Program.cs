@@ -24,7 +24,7 @@ namespace csharp_interpolated_string_pre4._6
         {
             var a = "{{   b      }}";
             var b = "world";
-            var template = "this is a string with variable {{    a   }} and {{b}}, again {{a}} {{b}}";
+            var template = "this is a string with variable {{    a   }} and {{b}}, again {{a}} {{b}}, an unmatched {{c  }}";
 
             MatchEvaluator matcher = match =>
             {
@@ -37,8 +37,10 @@ namespace csharp_interpolated_string_pre4._6
                 else if (match.Groups[1].Value.Trim() == "b")
                 {
                     return b;
+                } else
+                {
+                    return match.Value; // do nothing
                 }
-                return "";
             };
 
             Console.WriteLine(Regex.Replace(template, "{{([^{}]+)}}", matcher));
